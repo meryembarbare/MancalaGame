@@ -1,0 +1,76 @@
+package com.mancala.game.domain;
+
+import com.mancala.game.enumeration.PlayerNumberEnum;
+import lombok.*;
+
+import javax.persistence.*;
+import java.util.Optional;
+
+@Getter
+@Setter
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Pit {
+
+    @Id
+    @Column(name = "id", nullable = false)
+    private Long id;
+
+    protected PlayerNumberEnum owner;
+    protected int stones;
+
+    @OneToOne
+    private Pit next;
+
+    protected Pit(PlayerNumberEnum owner, int stones) {
+        this.stones = stones;
+        this.owner = owner;
+    }
+
+    protected Pit() {}
+
+    public Integer countStones() {
+        return stones;
+    }
+
+    public Pit nextPit() {
+        return next;
+    }
+
+    public Pit setNextPit(Pit next) {
+        this.next = next;
+        return next;
+    }
+
+    public void put() {
+        this.stones++;
+    }
+
+    public PlayerNumberEnum getOwner() {
+        return owner;
+    }
+
+    abstract boolean canPut(PlayerNumberEnum player);
+
+    public boolean isEmpty() {
+        return this.stones == 0;
+    }
+
+    public Optional<SmallPit> getOpposite() {
+        return Optional.empty();
+    }
+
+    public Integer takeStones() {
+        return 0;
+    }
+
+    public Integer capture() {
+        if (this.getOpposite().isEmpty()) {
+            return 0;
+        }
+        return Optional.ofNullable(this.getOpposite())
+                .map(item -> item.get().takeStones())
+                .orElse(0);
+    }
+
+}
