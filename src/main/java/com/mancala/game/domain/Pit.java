@@ -13,14 +13,20 @@ import java.util.Optional;
 public abstract class Pit {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pit_id_seq")
+    @SequenceGenerator(name = "pit_id_seq", sequenceName = "pit_id_seq", allocationSize = 1)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     protected PlayerNumberEnum owner;
     protected int stones;
 
     @OneToOne
     private Pit next;
+
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private Board board;
 
     protected Pit(PlayerNumberEnum owner, int stones) {
         this.stones = stones;

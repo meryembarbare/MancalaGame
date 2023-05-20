@@ -13,23 +13,27 @@ import java.util.List;
 @Entity
 public class Player {
 
+    String name;
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "player_id_seq")
+    @SequenceGenerator(name = "player_id_seq", sequenceName = "player_id_seq", allocationSize = 1)
     private Long id;
-
     private PlayerNumberEnum playerNumber;
     @OneToMany
+    @JoinColumn(name = "player_id")
     private List<SmallPit> smallPits;
     @OneToOne
     private BigPit bigPit;
 
-    public Player(PlayerNumberEnum playerNumber, List<SmallPit> smallPits, BigPit bigPit) {
+    public Player(PlayerNumberEnum playerNumber, List<SmallPit> smallPits, BigPit bigPit, String name) {
         this.playerNumber = playerNumber;
         this.smallPits = smallPits;
         this.bigPit = bigPit;
+        this.name = name;
     }
 
-    public Player() {}
+    public Player() {
+    }
 
     public Pit turn(int smallPitNum) throws PitException {
         SmallPit smallPit = getSmallPit(smallPitNum);

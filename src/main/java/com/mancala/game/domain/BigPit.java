@@ -1,7 +1,8 @@
 package com.mancala.game.domain;
 
 import com.mancala.game.enumeration.PlayerNumberEnum;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 
@@ -18,7 +19,8 @@ public class BigPit extends Pit {
         super(owner, stones);
     }
 
-    public BigPit() {}
+    public BigPit() {
+    }
 
     public void put(int i) {
         stones += i;

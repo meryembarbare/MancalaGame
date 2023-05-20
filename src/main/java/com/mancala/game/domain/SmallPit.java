@@ -20,7 +20,8 @@ public class SmallPit extends Pit {
         super(owner, stones);
     }
 
-    public SmallPit() {}
+    public SmallPit() {
+    }
 
     @Override
     public Integer takeStones() {
