@@ -57,7 +57,7 @@ public class GameService {
         player = nextPlayer(landed, player, board);
         game.get().setPlayer(player);
         gameRepository.save(game.get());
-        return new ResultDto(status, player.getPlayerNumber(), board.getId());
+        return new ResultDto(status, player.getPlayerNumber());
     }
 
     private StatusEnum declareWinner(Board board) {

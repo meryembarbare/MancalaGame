@@ -13,5 +13,4 @@ public class ResultDto {
 
     private StatusEnum status;
     private PlayerNumberEnum next;
-    private long boardId;
 }

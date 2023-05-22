@@ -27,5 +27,6 @@ In this project, we have the following entities :
 This project exposes two rest controllers :
 - createGame : responsible for creating a new game, it takes as @RequestBody : gameDto which contains the following attributes : namePlayer1 and namePlayer2.
 it creates the smallPits , bigPits ,initializes them, creates players and the board , and then saves the game.
-- makeMove : responsible for making a move by a specific player , it takes as requestParams : the gameId already saved, the playerNumber and the smallPit number.
+- makeMove : responsible for making a move by a specific player , it takes as requestParams : the gameId already saved, the playerNumber and the smallPit number. 
+it returns a result object containing the status of the game and the next player who has to take the turn.
 all the mancala games rules are taken in consideration.
