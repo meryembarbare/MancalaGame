@@ -9,7 +9,7 @@ public enum StatusEnum {
 
     ACTIVE("Active"),
 
-    DRAW("Draw"),
+    EQUALITY("Equality"),
 
     PLAYER_ONE_WIN("Player 1 won the game"),
 

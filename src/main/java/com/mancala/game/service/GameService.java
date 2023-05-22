@@ -70,7 +70,7 @@ public class GameService {
         if (score2 > score1) {
             return StatusEnum.PLAYER_TWO_WIN;
         }
-        return StatusEnum.DRAW;
+        return StatusEnum.EQUALITY;
     }
 
     public Player nextPlayer(Pit landed, Player player, Board board) {
