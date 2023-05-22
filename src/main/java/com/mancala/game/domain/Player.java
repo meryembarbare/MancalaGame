@@ -2,6 +2,7 @@ package com.mancala.game.domain;
 
 import com.mancala.game.enumeration.PlayerNumberEnum;
 import com.mancala.game.exception.PitException;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

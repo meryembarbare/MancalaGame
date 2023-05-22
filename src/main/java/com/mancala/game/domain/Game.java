@@ -1,14 +1,15 @@
 package com.mancala.game.domain;
 
 import com.mancala.game.enumeration.StatusEnum;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class Game {
 
     @Id
