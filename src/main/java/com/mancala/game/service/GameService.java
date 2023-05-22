@@ -27,15 +27,15 @@ public class GameService {
     private final BoardRepository boardRepository;
     private final BoardService boardService;
 
-    public Game createNewGame(GameDto gameDto) {
+    public Long createNewGame(GameDto gameDto) {
         Game game = new Game();
         Board board = boardService.createBoard(gameDto.getNamePlayer1(), gameDto.getNamePlayer2());
+        boardRepository.save(board);
         game.setBoard(board);
         game.setPlayer(board.getPlayers().get(0));
         game.setStatus(StatusEnum.ACTIVE);
         game = gameRepository.save(game);
-        //GameDto gameDto =  To map
-        return game;
+        return game.getId();
     }
 
     public ResultDto moveMove(PlayerNumberEnum playerNumber, int smallPit, long gameId) throws BadTurnException, GameNotFoundException, PitException {

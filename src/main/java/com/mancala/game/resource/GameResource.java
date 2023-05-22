@@ -20,11 +20,11 @@ public class GameResource {
     private final GameService gameService;
 
     @PostMapping("/new-game")
-    public void createGame(@RequestBody GameDto gameDto) {
+    public Long createGame(@RequestBody GameDto gameDto) {
         log.info("start Resource create game with params : {}", gameDto);
-        gameService.createNewGame(gameDto);
-        //TODO
+        Long gameId = gameService.createNewGame(gameDto);
         log.info("End Resource create game with created game id {}", gameDto.getId());
+        return gameId;
     }
 
     @PostMapping("/make-move")
