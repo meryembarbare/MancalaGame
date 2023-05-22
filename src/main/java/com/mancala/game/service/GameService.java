@@ -30,7 +30,6 @@ public class GameService {
     public Game createNewGame(GameDto gameDto) {
         Game game = new Game();
         Board board = boardService.createBoard(gameDto.getNamePlayer1(), gameDto.getNamePlayer2());
-        board = boardRepository.save(board);
         game.setBoard(board);
         game.setPlayer(board.getPlayers().get(0));
         game.setStatus(StatusEnum.ACTIVE);
@@ -56,7 +55,9 @@ public class GameService {
             status = declareWinner(board);
         }
         player = nextPlayer(landed, player, board);
-        return new ResultDto(status, player.getPlayerNumber(), board);
+        game.get().setPlayer(player);
+        gameRepository.save(game.get());
+        return new ResultDto(status, player.getPlayerNumber(), board.getId());
     }
 
     private StatusEnum declareWinner(Board board) {
@@ -82,9 +83,9 @@ public class GameService {
     private Player otherPlayer(Player player, Board board) {
         List<Player> players = board.getPlayers();
         if (PlayerNumberEnum.ONE.equals(player.getPlayerNumber())) {
-            return players.get(0);
-        } else {
             return players.get(1);
+        } else {
+            return players.get(0);
         }
     }
 

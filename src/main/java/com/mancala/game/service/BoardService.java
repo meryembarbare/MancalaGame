@@ -6,6 +6,7 @@ import com.mancala.game.domain.Player;
 import com.mancala.game.domain.SmallPit;
 import com.mancala.game.enumeration.PlayerNumberEnum;
 import com.mancala.game.repository.BigPitRepository;
+import com.mancala.game.repository.BoardRepository;
 import com.mancala.game.repository.SmallPitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,12 +23,13 @@ public class BoardService {
 
     private final BigPitRepository bigPitRepository;
     private final SmallPitRepository smallPitRepository;
+    private final BoardRepository boardRepository;
 
-    private static LinkedList<SmallPit> buildSmallPits(PlayerNumberEnum playerNumber, List<Integer> stones) {
+    private static LinkedList<SmallPit> buildSmallPits(PlayerNumberEnum playerNumber, List<Integer> stones, Board board) {
         LinkedList<SmallPit> smallPits = new LinkedList<>();
-        smallPits.addLast(new SmallPit(playerNumber, stones.get(0)));
+        smallPits.addLast(new SmallPit(playerNumber, stones.get(0), board));
         while (smallPits.size() < stones.size()) {
-            SmallPit smallPit = new SmallPit(playerNumber, stones.get(smallPits.size()));
+            SmallPit smallPit = new SmallPit(playerNumber, stones.get(smallPits.size()), board);
             smallPits.getLast().setNext(smallPit);
             smallPits.addLast(smallPit);
         }
@@ -63,16 +65,17 @@ public class BoardService {
     }
 
     public Board from(List<Integer> p1SmallPits, int p1BigPit, List<Integer> p2SmallPits, int p2BigPit, String namePlayer1, String namePlayer2) {
-        LinkedList<SmallPit> smallPitsOne = buildSmallPits(PlayerNumberEnum.ONE, p1SmallPits);
-        LinkedList<SmallPit> smallPitsTwo = buildSmallPits(PlayerNumberEnum.TWO, p2SmallPits);
+        Board board = new Board();
+        LinkedList<SmallPit> smallPitsOne = buildSmallPits(PlayerNumberEnum.ONE, p1SmallPits, board);
+        LinkedList<SmallPit> smallPitsTwo = buildSmallPits(PlayerNumberEnum.TWO, p2SmallPits, board);
 
         smallPitRepository.saveAll(smallPitsOne);
         smallPitRepository.saveAll(smallPitsTwo);
 
         mutuallyOpposite(smallPitsOne, smallPitsTwo);
 
-        BigPit bigPitOne = new BigPit(PlayerNumberEnum.ONE, p1BigPit);
-        BigPit bigPitTwo = new BigPit(PlayerNumberEnum.TWO, p2BigPit);
+        BigPit bigPitOne = new BigPit(PlayerNumberEnum.ONE, p1BigPit, board);
+        BigPit bigPitTwo = new BigPit(PlayerNumberEnum.TWO, p2BigPit, board);
         bigPitRepository.saveAll(List.of(bigPitOne, bigPitTwo));
 
         circular(smallPitsOne, bigPitOne, smallPitsTwo, bigPitTwo);
@@ -80,7 +83,6 @@ public class BoardService {
         Player playerOne = new Player(PlayerNumberEnum.ONE, smallPitsOne, bigPitOne, namePlayer1);
         Player playerTwo = new Player(PlayerNumberEnum.TWO, smallPitsTwo, bigPitTwo, namePlayer2);
 
-        Board board = new Board();
         board.setSmallPits(new ArrayList<>(smallPitsOne));
         board.setBigPits(List.of(bigPitOne, bigPitTwo));
 

@@ -16,8 +16,8 @@ public class SmallPit extends Pit {
     @OneToOne
     private SmallPit opposite;
 
-    public SmallPit(PlayerNumberEnum owner, int stones) {
-        super(owner, stones);
+    public SmallPit(PlayerNumberEnum owner, int stones, Board board) {
+        super(owner, stones, board);
     }
 
     public SmallPit() {

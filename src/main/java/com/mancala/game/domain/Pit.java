@@ -28,9 +28,10 @@ public abstract class Pit {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    protected Pit(PlayerNumberEnum owner, int stones) {
+    protected Pit(PlayerNumberEnum owner, int stones, Board board) {
         this.stones = stones;
         this.owner = owner;
+        this.board = board;
     }
 
     protected Pit() {}

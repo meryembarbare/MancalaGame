@@ -29,10 +29,7 @@ public class GameResource {
 
     @PostMapping("/make-move")
     public ResultDto makeMove(@RequestParam PlayerNumberEnum playerNumber, @RequestParam int smallPit, @RequestParam long gameId) throws BadTurnException, PitException, GameNotFoundException {
-        log.info("start Resource makeMove with params : playerNumber: {}, smallPit: {}, gameId: {}", playerNumber, smallPit, gameId);
-        ResultDto resultDto = gameService.moveMove(playerNumber, smallPit, gameId);
-        log.info("End Resource makeMove with gameStatus : {}", resultDto.getStatus());
-        return resultDto;
+        return gameService.moveMove(playerNumber, smallPit, gameId);
     }
 
 }

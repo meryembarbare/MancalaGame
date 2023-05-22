@@ -11,12 +11,12 @@ import javax.persistence.Entity;
 @Entity
 public class BigPit extends Pit {
 
-    public BigPit(PlayerNumberEnum owner) {
-        super(owner, 0);
+    public BigPit(PlayerNumberEnum owner, Board board) {
+        super(owner, 0, board);
     }
 
-    public BigPit(PlayerNumberEnum owner, int stones) {
-        super(owner, stones);
+    public BigPit(PlayerNumberEnum owner, int stones, Board board) {
+        super(owner, stones, board);
     }
 
     public BigPit() {
